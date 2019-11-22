@@ -38,6 +38,7 @@ class TestBookDbApi:
             author='Henry Miller',
             genre='Roman à clef'
         )
+
         book = book_db_api.get_book('Plexus')
         assert book.author == 'Henry Miller'
         assert book.genre == 'Roman à clef'
