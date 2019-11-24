@@ -36,7 +36,8 @@ class BookDbApi:
     def get_book(self, title: typing.AnyStr) -> Book:
         with self.session_scope() as session:
             book_rec = session.query(BookRec).filter(BookRec.title == title).first()
-            return Book.from_book_rec(book_rec)
+            book = Book.from_book_rec(book_rec)
+        return book
 
     def get_all_books(self) -> typing.List[Book]:
         with self.session_scope() as session:
