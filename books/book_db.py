@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 class Book(Base):
-    __tablename__ = 'book'
+    __tablename__ = 'books'
 
     id = sqla.Column(sqla.Integer, primary_key=True)
     title = sqla.Column(sqla.String(250), nullable=False)

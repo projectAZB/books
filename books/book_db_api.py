@@ -1,8 +1,11 @@
-from books.book_db import Book as BookRec
-from books.book import Book
 import typing
+import logging
+
 from sqlalchemy.orm import sessionmaker, Session
 from contextlib import contextmanager
+
+from books.book_db import Book as BookRec
+from books.book import Book
 
 
 class BookDbApi:
@@ -16,7 +19,8 @@ class BookDbApi:
         try:
             yield session
             session.commit()
-        except:
+        except Exception as e:
+            logging.error(f'{e}')
             session.rollback()
         finally:
             session.close()
