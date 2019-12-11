@@ -44,12 +44,3 @@ class TestBookDbApi:
         assert book.genre == 'Roman à clef'
         num_books = len(book_db_api.get_all_books())
         assert num_books == 1
-
-
-
-
-
-
-
-
-
