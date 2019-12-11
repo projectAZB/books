@@ -1,19 +1,26 @@
 import pytest
-from books.db_engine import DbEngine
+
+import run as flask_app
 
 
 @pytest.fixture(scope='session')
-def db_engine():
-    db_engine = DbEngine()
-    yield db_engine
-    db_engine.db_engine.dispose()
+def app():
+    app = flask_app.app
+    return app
+
+
+@pytest.fixture(scope='session')
+def _db():
+    database = flask_app.db
+    database.drop_all()
+    yield database
 
 
 @pytest.fixture(scope='function')
-def database(db_engine):
-    db_engine.create_all()
-    yield db_engine
-    db_engine.drop_all()
+def database(_db):
+    _db.create_all()
+    yield _db
+    _db.drop_all()
 
 
 @pytest.fixture(scope='function')
