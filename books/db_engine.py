@@ -15,7 +15,7 @@ class DbEngine:
             rdms='mysql'
     ):
         uri = f'{rdms}://{dbuser}:{password}@{host}:{port}/{dbname}'
-        self._engine = sqla.create_engine(uri, echo=True)
+        self._engine = sqla.create_engine(uri, echo=False)
         self._session_maker = sessionmaker(bind=self._engine)
         self.create_all()
 
