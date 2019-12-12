@@ -1,17 +1,19 @@
 import pytest
 
-import run as flask_app
+from books import create_app
+
+from books.db_engine import db
 
 
 @pytest.fixture(scope='session')
 def app():
-    app = flask_app.app
+    app = create_app()
     return app
 
 
 @pytest.fixture(scope='session')
-def _db():
-    database = flask_app.db
+def _db(app):
+    database = db
     database.drop_all()
     yield database
 

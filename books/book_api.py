@@ -1,22 +1,14 @@
-import os
 
-from flask import Flask, request, Response
-from books.db_engine import DbEngine
+from flask import request, Response, Blueprint
 from books.book_db_api import BookDbApi
 
-
-app = Flask(__name__)
-
-db = DbEngine(
-    os.getenv('MYSQL_HOST', '127.0.0.1'),
-    os.getenv('MYSQL_PORT', '3306'),
-    os.getenv('MYSQL_DBNAME', 'book_db'),
-    os.getenv('MYSQL_USER', 'root'),
-    os.getenv('MYSQL_PASSWORD', 'password')
-)
+from books.db_engine import db
 
 
-@app.route('/create_book', methods=['POST'])
+books = Blueprint('books', __name__, url_prefix='/books')
+
+
+@books.route('/create', methods=['POST'])
 def create_book():
     json_body = request.get_json(force=True)
     if all(key in json_body for key in ('title', 'author', 'genre')):

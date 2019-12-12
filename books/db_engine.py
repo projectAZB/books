@@ -1,3 +1,5 @@
+import os
+
 import sqlalchemy as sqla
 from sqlalchemy.orm import sessionmaker
 from books.book_db import Base
@@ -15,6 +17,7 @@ class DbEngine:
             rdms='mysql'
     ):
         uri = f'{rdms}://{dbuser}:{password}@{host}:{port}/{dbname}'
+        print(f'Initializing MySQL connection to {uri}...')
         self._engine = sqla.create_engine(uri, echo=False)
         self._session_maker = sessionmaker(bind=self._engine)
         self.create_all()
@@ -23,12 +26,23 @@ class DbEngine:
     def session_maker(self):
         return self._session_maker
 
-    @property
-    def db_engine(self):
-        return self._engine
-
     def create_all(self):
         Base.metadata.create_all(self._engine)
 
     def drop_all(self):
         Base.metadata.drop_all(self._engine)
+
+    def dispose(self):
+        self._engine.dispose()
+
+    def init_app(self, app):
+        app.teardown_appcontext(self.dispose())
+
+
+db = DbEngine(
+    os.getenv('MYSQL_HOST', '127.0.0.1'),
+    int(os.getenv('MYSQL_PORT', '3306')),
+    os.getenv('MYSQL_DBNAME', 'book_db'),
+    os.getenv('MYSQL_USER', 'root'),
+    os.getenv('MYSQL_PASSWORD', 'password')
+)

@@ -22,6 +22,7 @@ class BookDbApi:
         except Exception as e:
             logging.error(f'{e}')
             session.rollback()
+            raise
         finally:
             session.close()
 

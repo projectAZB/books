@@ -8,13 +8,13 @@ class TestBookApi:
 
     def test_create_book_api(self, app, session_maker):
         with app.test_client() as context:
-            response: Response = context.post('/create_book', json={
+            response: Response = context.post('/books/create', json={
                 'title': 'Pnin',
                 'author': 'Vladimir Nabokov',
                 'genre': 'Campus'
             })
             assert response.status_code == 200
-            response: Response = context.post('/create_book', json={
+            response: Response = context.post('/books/create', json={
                 'title': 'Demian',
                 'author': 'Hermann Hesse',
                 'genre': 'Fiction'
