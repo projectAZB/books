@@ -38,9 +38,12 @@ class BookDbApi:
             session.add(new_book_rec)
         return new_book
 
-    def get_book(self, title: typing.AnyStr) -> Book:
+    def get_book(self, title: typing.AnyStr, author: typing.Optional[typing.AnyStr]) -> Book:
         with self.session_scope() as session:
-            book_rec = session.query(BookRec).filter(BookRec.title == title).first()
+            if author is None:
+                book_rec = session.query(BookRec).filter(BookRec.title == title).one()
+            else:
+                book_rec = session.query(BookRec).filter(BookRec.title == title, BookRec.author == author).one()
             book = Book.from_book_rec(book_rec)
         return book
 
