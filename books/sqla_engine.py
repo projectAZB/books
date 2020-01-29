@@ -5,18 +5,9 @@ from books.book_db import Base
 
 class SqlaEngine:
 
-    def __init__(
-            self,
-            host='127.0.0.1',
-            port='3306',
-            dbname='books_test',
-            dbuser='root',
-            password='password',
-            rdms='mysql',
-            options=''
-    ):
-        uri = f'{rdms}://{dbuser}:{password}@{host}:{port}/{dbname}{options}'
-        print(f'Initializing MySQL connection to {uri}...')
+    def __init__(self, host, port, dbname, user, password, rdms='mysql', options=''):
+        uri = f'{rdms}://{user}:{password}@{host}:{port}/{dbname}{options}'
+        print(f'Initializing MySQL connection to {rdms}://{user}:***@{host}:{port}/{dbname}{options}...')
         self._engine = sqla.create_engine(uri, echo=False)
         self._session_maker = sessionmaker(bind=self._engine)
         if len(self.tables()) == 0:
