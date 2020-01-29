@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from books.book_db import Base
 
 
-class DbEngine:
+class SqlAlchemyEngine:
 
     def __init__(
             self,
@@ -20,7 +20,8 @@ class DbEngine:
         print(f'Initializing MySQL connection to {uri}...')
         self._engine = sqla.create_engine(uri, echo=False)
         self._session_maker = sessionmaker(bind=self._engine)
-        self.create_all()
+        if len(self.tables()) == 0:
+            self.create_all()
 
     @property
     def session_maker(self):
@@ -38,11 +39,14 @@ class DbEngine:
     def init_app(self, app):
         app.teardown_appcontext(self.dispose())
 
+    def tables(self):
+        return self._engine.table_names()
 
-db = DbEngine(
+
+db = SqlAlchemyEngine(
     os.getenv('MYSQL_HOST', '127.0.0.1'),
     int(os.getenv('MYSQL_PORT', '3306')),
-    os.getenv('MYSQL_DBNAME', 'book_db'),
+    os.getenv('MYSQL_DBNAME', 'books'),
     os.getenv('MYSQL_USER', 'root'),
     os.getenv('MYSQL_PASSWORD', 'password')
 )

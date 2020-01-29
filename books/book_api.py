@@ -2,7 +2,7 @@
 from flask import request, Response, Blueprint, jsonify
 from books.book_db_api import BookDbApi
 
-from books.db_engine import db
+from books.sqlalchemy_engine import db
 
 
 books = Blueprint('books', __name__, url_prefix='/books')
