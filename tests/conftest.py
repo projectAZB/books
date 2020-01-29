@@ -1,8 +1,8 @@
 import pytest
 
 from books import create_app
-
-from books.db_engine import db
+from books.sqla_engine import SqlaEngine
+from books import settings
 
 
 @pytest.fixture(scope='session')
@@ -13,9 +13,10 @@ def app():
 
 @pytest.fixture(scope='session')
 def _db(app):
-    database = db
-    database.drop_all()
-    yield database
+    with app.app_context():
+        database = SqlaEngine(settings.host, settings.port, settings.dbname, settings.user, settings.password)
+        database.drop_all()
+        yield database
 
 
 @pytest.fixture(scope='function')

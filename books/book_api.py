@@ -2,7 +2,7 @@
 from flask import request, Response, Blueprint, jsonify
 from books.book_db_api import BookDbApi
 
-from books.sqlalchemy_engine import db
+from books.settings import sqla_engine
 
 
 books = Blueprint('books', __name__, url_prefix='/books')
@@ -14,7 +14,7 @@ def get_book():
     author = request.args.get('author', None)
     if not title:
         return Response(status=400)
-    book_dp_api = BookDbApi(db.session_maker)
+    book_dp_api = BookDbApi(sqla_engine.session_maker)
     book = book_dp_api.get_book(title, author)
     return jsonify(title=book.title, author=book.author, genre=book.genre)
 
@@ -23,7 +23,7 @@ def get_book():
 def create_book():
     json_body = request.get_json(force=True)
     if all(key in json_body for key in ('title', 'author', 'genre')):
-        book_db_api = BookDbApi(db.session_maker)
+        book_db_api = BookDbApi(sqla_engine.session_maker)
         book_db_api.create_book(
             json_body.get('title'),
             json_body.get('author'),

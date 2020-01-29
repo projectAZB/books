@@ -1,22 +1,21 @@
-import os
-
 import sqlalchemy as sqla
 from sqlalchemy.orm import sessionmaker
 from books.book_db import Base
 
 
-class SqlAlchemyEngine:
+class SqlaEngine:
 
     def __init__(
             self,
             host='127.0.0.1',
-            port=3306,
+            port='3306',
             dbname='books_test',
             dbuser='root',
             password='password',
-            rdms='mysql'
+            rdms='mysql',
+            options=''
     ):
-        uri = f'{rdms}://{dbuser}:{password}@{host}:{port}/{dbname}'
+        uri = f'{rdms}://{dbuser}:{password}@{host}:{port}/{dbname}{options}'
         print(f'Initializing MySQL connection to {uri}...')
         self._engine = sqla.create_engine(uri, echo=False)
         self._session_maker = sessionmaker(bind=self._engine)
@@ -41,12 +40,3 @@ class SqlAlchemyEngine:
 
     def tables(self):
         return self._engine.table_names()
-
-
-db = SqlAlchemyEngine(
-    os.getenv('MYSQL_HOST', '127.0.0.1'),
-    int(os.getenv('MYSQL_PORT', '3306')),
-    os.getenv('MYSQL_DBNAME', 'books'),
-    os.getenv('MYSQL_USER', 'root'),
-    os.getenv('MYSQL_PASSWORD', 'password')
-)
