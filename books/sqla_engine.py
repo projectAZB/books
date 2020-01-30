@@ -2,7 +2,7 @@ from contextlib import contextmanager
 
 import sqlalchemy as sqla
 from sqlalchemy.orm import sessionmaker, Session
-from books.book_db import Base
+from books.db import Base
 
 import logging
 

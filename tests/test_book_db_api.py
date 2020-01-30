@@ -1,10 +1,10 @@
-from books.book_db_api import BookDbApi
+from books.db_api import DbApi
 
 
 class TestBookDbApi:
 
     def test_book_db_api_one(self, sqla_engine):
-        book_db_api: BookDbApi = BookDbApi(sqla_engine)
+        book_db_api: DbApi = DbApi(sqla_engine)
         book_db_api.create_book(
             title='Jude the Obscure',
             author='Thomas Hardy',
@@ -18,7 +18,7 @@ class TestBookDbApi:
         assert num_books == 1
 
     def test_book_db_api_two(self, sqla_engine):
-        book_db_api: BookDbApi = BookDbApi(sqla_engine)
+        book_db_api: DbApi = DbApi(sqla_engine)
         book_db_api.create_book(
             title='Elective Affinities',
             author='Goethe',
@@ -32,7 +32,7 @@ class TestBookDbApi:
         assert num_books == 1
 
     def test_book_db_api_three(self, sqla_engine):
-        book_db_api: BookDbApi = BookDbApi(sqla_engine)
+        book_db_api: DbApi = DbApi(sqla_engine)
         book_db_api.create_book(
             title='Plexus',
             author='Henry Miller',

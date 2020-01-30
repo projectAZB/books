@@ -2,11 +2,11 @@ import typing
 
 from books.sqla_engine import SqlaEngine
 
-from books.book_db import Book as BookRec
+from books.db import Book as BookRec
 from books.book import Book
 
 
-class BookDbApi:
+class DbApi:
 
     def __init__(self, sql_engine: SqlaEngine):
         self.sql_engine = sql_engine

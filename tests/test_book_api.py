@@ -1,7 +1,7 @@
 
 from flask import Response
 
-from books.book_db_api import BookDbApi
+from books.db_api import DbApi
 
 
 class TestBookApi:
@@ -20,7 +20,7 @@ class TestBookApi:
                 'genre': 'Fiction'
             })
             assert response.status_code == 200
-            book_db_api: BookDbApi = BookDbApi(sqla_engine)
+            book_db_api: DbApi = DbApi(sqla_engine)
             assert len(book_db_api.get_all_books()) == 2
 
             response: Response = context.get('/books?title=Pnin&author=Vladimir%20Nabokov')
