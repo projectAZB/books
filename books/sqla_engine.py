@@ -1,6 +1,10 @@
+from contextlib import contextmanager
+
 import sqlalchemy as sqla
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 from books.book_db import Base
+
+import logging
 
 
 class SqlaEngine:
@@ -12,6 +16,19 @@ class SqlaEngine:
         self._session_maker = sessionmaker(bind=self._engine)
         if len(self.tables()) == 0:
             self.create_all()
+
+    @contextmanager
+    def session_scope(self):
+        session: Session = self.session_maker()
+        try:
+            yield session
+            session.commit()
+        except Exception as e:
+            logging.error(f'{e}')
+            session.rollback()
+            raise
+        finally:
+            session.close()
 
     @property
     def session_maker(self):
