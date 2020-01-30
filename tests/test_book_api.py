@@ -6,7 +6,7 @@ from books.db_api import DbApi
 
 class TestBookApi:
 
-    def test_create_book_api(self, app, sqla_engine):
+    def test_create_book_api(self, app):
         with app.test_client() as context:
             response: Response = context.post('/books/create', json={
                 'title': 'Pnin',
@@ -20,8 +20,7 @@ class TestBookApi:
                 'genre': 'Fiction'
             })
             assert response.status_code == 200
-            book_db_api: DbApi = DbApi(sqla_engine)
-            assert len(book_db_api.get_all_books()) == 2
+            assert len(DbApi.get_all_books()) == 2
 
             response: Response = context.get('/books?title=Pnin&author=Vladimir%20Nabokov')
             assert response.status_code

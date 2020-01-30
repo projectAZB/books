@@ -1,24 +1,25 @@
 import pytest
 
-from books import create_app
-from books import settings
+from books import create_app, sqla_db
+from books.config import TestingConfig
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope='session', autouse=True)
 def app():
-    app = create_app()
-    return app
+    app = create_app(TestingConfig())
+    with app.app_context():
+        yield app
+    sqla_db.session.remove()
 
 
-@pytest.fixture(scope='session')
-def _sqla_engine(app):
-    sqla_engine = settings.sqla_engine
-    sqla_engine.drop_all()
-    yield sqla_engine
+@pytest.fixture(scope='function', autouse=True)
+def database(app):
+    sqla_db.drop_all()
+    sqla_db.create_all()
+    yield
 
 
-@pytest.fixture(scope='function')
-def sqla_engine(_sqla_engine):
-    _sqla_engine.create_all()
-    yield _sqla_engine
-    _sqla_engine.drop_all()
+@pytest.fixture(scope='function', autouse=True)
+def session(database):
+    yield
+    sqla_db.session.remove()
