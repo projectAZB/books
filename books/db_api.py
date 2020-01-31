@@ -2,7 +2,7 @@ import typing
 
 from books import sqla_db
 from books.db import Book as BookRec
-from books.book import Book
+from books.dao import Book
 
 
 class DbApi:

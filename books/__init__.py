@@ -5,7 +5,7 @@ from flask import Flask
 from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 
-from books.config import config_for_environment, TestingConfig
+from books.settings.config import TestingConfig, config_for_environment
 from books.settings import environment, user, host, port, dbname, options
 
 
@@ -13,14 +13,14 @@ sqla_db = SQLAlchemy()
 
 
 #  Flask App Factory
-def create_app(test_config: typing.Optional[config.TestingConfig]):
+def create_app(test_config: typing.Optional[TestingConfig]):
     app = Flask(__name__)
 
     # Configure the app according to environment
     if test_config is not None:
         app.config.from_object(test_config)
     else:
-        app.config.from_object(config.config_for_environment(environment))
+        app.config.from_object(config_for_environment(environment))
 
     # Initialize Flask-SQLAlchemy and the init-db command
     print(f'Initializing MySQL connection to mysql://{user}:***@{host}:{port}/{dbname}{options}...')

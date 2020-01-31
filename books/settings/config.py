@@ -1,14 +1,14 @@
 from abc import ABC
 
-from environment import Environment
-import books.settings as settings
+from books.settings.environment import Environment
+from . import db_url
 
 
 class BaseConfig(ABC):
     FLASK_ADMIN_SWATCH = 'cerulean'
     SECRET_KEY = 'shhh'
     SQLALCHEMY_ECHO = False
-    SQLALCHEMY_DATABASE_URI = settings.db_url
+    SQLALCHEMY_DATABASE_URI = db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Set to silence warnings
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_size': 10,

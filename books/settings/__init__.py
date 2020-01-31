@@ -1,7 +1,8 @@
-import os
-from environment import Environment
 
-environment = int(os.getenv('ENVIRONMENT', Environment.DEVELOPMENT.value))  # Default to Development  (1)
+import os
+from .environment import Environment
+
+environment = int(os.getenv('ENVIRONMENT', Environment.DEVELOPMENT.value))  # Default to Development (1)
 
 host = os.getenv('MYSQL_HOST', '127.0.0.1')
 port = int(os.getenv('MYSQL_PORT', '3306'))

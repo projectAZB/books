@@ -1,4 +1,5 @@
 import typing
+
 from books.db import Book as BookRec
 
 
