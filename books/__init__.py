@@ -17,9 +17,7 @@ def create_app(test_config: typing.Optional[config.TestingConfig]):
     app = Flask(__name__)
 
     # Configure the app according to environment
-
     if test_config is not None:
-        print(test_config)
         app.config.from_object(test_config)
     else:
         app.config.from_object(config.config_for_environment(environment))
