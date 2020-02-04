@@ -34,12 +34,12 @@ class ProductionConfig(BaseConfig):
 
 
 _configs = {
-    Environment.TESTING: TestingConfig(),
-    Environment.DEVELOPMENT: DevelopmentConfig(),
-    Environment.STAGING: StagingConfig(),
-    Environment.PRODUCTION: ProductionConfig()
+    Environment.TESTING: TestingConfig,
+    Environment.DEVELOPMENT: DevelopmentConfig,
+    Environment.STAGING: StagingConfig,
+    Environment.PRODUCTION: ProductionConfig
 }
 
 
 def config_for_environment(environment: Environment):
-    return _configs[environment]
+    return _configs[environment]()
