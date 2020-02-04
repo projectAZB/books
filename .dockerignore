@@ -2,4 +2,8 @@ books_venv/
 .idea/
 __pycache__/
 .DS_Store
+.git
+.gitignore
+README.md
+.pytest_cache
 mysql-data/

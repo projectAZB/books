@@ -1,15 +1,28 @@
 version: '3.7'
 
 services:
-  books:
+
+  web-mysql:
+    user: "1000:50" # defaults to running as 'mysql' which can't access folders mounted from OSX/Windows.
+    image: mysql:5.7
+    env_file: .env
+    volumes:
+      - ./mysql-data/:/var/lib/mysql/
+    command: --innodb_use_native_aio=0
+    ports:
+      - 3306:3306
+
+  web:
     build:
       dockerfile: Dockerfile
       context: .
     image: books
+    command: ./scripts/start.sh
     volumes:
-      - ./books:/app/books
-      - ./wheelhouse:/app/wheelhouse
+      - .:/app/
     env_file:
       - .env
     ports:
-      - '5000:5000'
+      - 5000:5000
+    depends_on:
+      - web-mysql
