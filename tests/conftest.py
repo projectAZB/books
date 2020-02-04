@@ -8,7 +8,6 @@ from books.settings.config import TestingConfig
 def app():
     app = create_app(TestingConfig())
     yield app
-    sqla_db.session.remove()
 
 
 @pytest.fixture(scope='function', autouse=True)
@@ -17,9 +16,4 @@ def database(app):
         sqla_db.drop_all()
         sqla_db.create_all()
         yield
-
-
-@pytest.fixture(scope='function', autouse=True)
-def session(database):
-    yield
-    sqla_db.session.remove()
+        sqla_db.session.remove()
