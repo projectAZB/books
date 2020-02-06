@@ -9,3 +9,7 @@ cd /app
 # Create databases
 mysql --host="$MYSQL_BOOKS_HOST" --port="$MYSQL_BOOKS_PORT" -u"$MYSQL_BOOKS_USER" -p"$MYSQL_BOOKS_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_BOOKS_DBNAME"
 mysql --host="$MYSQL_BOOKS_HOST" --port="$MYSQL_BOOKS_PORT" -u"$MYSQL_BOOKS_USER" -p"$MYSQL_BOOKS_PASSWORD" -e "CREATE DATABASE IF NOT EXISTS $MYSQL_BOOKS_TEST_DBNAME"
+
+
+# Makes sure that the database is up to date with the most recent revision
+alembic upgrade head
