@@ -12,3 +12,5 @@ COPY ./wheelhouse /app/wheelhouse/
 RUN pip install -r requirements.txt -f wheelhouse
 
 COPY . /app/
+
+ENV PYTHONPATH=/app/

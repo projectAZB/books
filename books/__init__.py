@@ -6,7 +6,7 @@ from flask.cli import with_appcontext
 from flask_sqlalchemy import SQLAlchemy
 
 from books.settings.config import TestingConfig, config_for_environment
-from books.settings import environ, user, host, port, dbname, options
+from books.settings import environ, user, host, port, dbname
 
 
 sqla_db = SQLAlchemy()

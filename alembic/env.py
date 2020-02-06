@@ -5,11 +5,14 @@ from sqlalchemy import pool
 
 from alembic import context
 
+from books import sqla_db
+from books.settings import db_url
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-# Interpret the settings file for Python logging.
+# Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
 
@@ -17,12 +20,15 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = sqla_db.metadata
 
-# other values from the settings, defined by the needs of env.py,
+# other values from the config, defined by the needs of env.py,
 # can be acquired:
-# my_important_option = settings.get_main_option("my_important_option")
+# my_important_option = config.get_main_option("my_important_option")
 # ... etc.
+
+
+config.set_main_option("sqlalchemy.url", db_url)
 
 
 def run_migrations_offline():
