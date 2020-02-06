@@ -1,8 +1,8 @@
 """base
 
-Revision ID: aa35f4e80738
+Revision ID: cdfdfbe5fc22
 Revises: 
-Create Date: 2020-02-06 19:00:12.328750
+Create Date: 2020-02-06 20:36:33.881866
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'aa35f4e80738'
+revision = 'cdfdfbe5fc22'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,6 +24,7 @@ def upgrade():
         sa.Column('author', sa.String(250), nullable=False),
         sa.Column('genre', sa.String(250))
     )
+    op.create_unique_constraint('_title_author_uc', 'books', ['author', 'title'], schema='books')
 
 
 def downgrade():

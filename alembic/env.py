@@ -27,7 +27,7 @@ target_metadata = sqla_db.metadata
 # my_important_option = config.get_main_option("my_important_option")
 # ... etc.
 
-
+# override here so we don't have to hard code in alembic.ini file
 config.set_main_option("sqlalchemy.url", db_url)
 
 

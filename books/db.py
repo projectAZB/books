@@ -2,6 +2,7 @@ from books import sqla_db as sqla
 
 
 class Book(sqla.Model):
+    __tablename__ = 'books'
     __table_args__ = (sqla.UniqueConstraint('title', 'author', name='_title_author_uc'),)
 
     id = sqla.Column(sqla.Integer, primary_key=True)

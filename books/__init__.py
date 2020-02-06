@@ -23,7 +23,7 @@ def create_app(test_config: typing.Optional[TestingConfig] = None):
         app.config.from_object(config_for_environment(environ))
 
     # Initialize Flask-SQLAlchemy and the init-db command
-    print(f'Initializing MySQL connection to mysql://{user}:***@{host}:{port}/{dbname}{options}...')
+    print(f'Initializing MySQL connection to mysql://{user}:***@{host}:{port}/{dbname}...')
     sqla_db.init_app(app)
     app.cli.add_command(init_db_command)
 
