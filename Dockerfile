@@ -13,4 +13,5 @@ RUN pip install -r requirements.txt -f wheelhouse
 
 COPY . /app/
 
+# Augment the default search path for module files
 ENV PYTHONPATH=/app/
