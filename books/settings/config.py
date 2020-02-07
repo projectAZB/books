@@ -1,12 +1,15 @@
+import os
 from abc import ABC
 
 from books.settings.environment import Environment
-from . import db_url
+from . import db_url, test_db_url
 
 
 class BaseConfig(ABC):
     FLASK_ADMIN_SWATCH = 'cerulean'
-    SECRET_KEY = 'shhh'
+    SECRET_KEY = os.urandom(16)
+    DEBUG = False
+    TESTING = False
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_DATABASE_URI = db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False  # Set to silence warnings
@@ -18,11 +21,12 @@ class BaseConfig(ABC):
 
 
 class TestingConfig(BaseConfig):
-    pass
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = test_db_url
 
 
 class DevelopmentConfig(BaseConfig):
-    pass
+    DEBUG = True
 
 
 class StagingConfig(BaseConfig):
@@ -34,7 +38,6 @@ class ProductionConfig(BaseConfig):
 
 
 _configs = {
-    Environment.TESTING: TestingConfig,
     Environment.DEVELOPMENT: DevelopmentConfig,
     Environment.STAGING: StagingConfig,
     Environment.PRODUCTION: ProductionConfig
