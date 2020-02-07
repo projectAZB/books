@@ -1,5 +1,6 @@
 import click
 import typing
+import logging
 
 from flask import Flask
 from flask.cli import with_appcontext
@@ -30,6 +31,12 @@ def create_app(test_config: typing.Optional[TestingConfig] = None):
     # Apply blueprints to the app
     from books.api import books
     app.register_blueprint(books)
+
+    # Create a consistent logging experience, using Gunicorn logging level as the source of truth
+    # Otherwise there is a discrepancy b/w Flask and Gunicorn log levels
+    gunicorn_logger = logging.getLogger('gunicorn.error')
+    app.logger.handlers = gunicorn_logger.handlers
+    app.logger.setLevel(gunicorn_logger.level)
 
     return app
 

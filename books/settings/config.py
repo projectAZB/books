@@ -1,8 +1,12 @@
 import os
 from abc import ABC
 
+from flask import current_app
 from books.settings.environment import Environment
 from . import db_url, test_db_url
+
+
+logger = current_app.logger
 
 
 class BaseConfig(ABC):
@@ -45,4 +49,8 @@ _configs = {
 
 
 def config_for_environment(environment: Environment):
-    return _configs[environment]()
+    try:
+        return _configs[environment]()
+    except KeyError:
+        logger.error('Env Var \'environment\' has an invalid value')
+        return DevelopmentConfig
